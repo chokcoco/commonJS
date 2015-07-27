@@ -77,8 +77,148 @@
 		return target.length > length ?
 			target.slice(0,length-truncate.length) + truncate : String(target);
 	}
-	
 
 
+	/**
+	 *@description 移除字符串中的html标签。
+	 *@param:target 目标字符串
+	 */
+	function stripTags(target){
+		return String(target || "").replace(/<[^>]+>/g);	//[^>] 匹配除>以外的任意字符
+	}
 
+
+	/**
+	 *@description 移除字符串中所有的script标签及内容。为弥补stripTags方法的，此方法应在stripTags之前调用。
+	 *@param:target 目标字符串
+	 */
+	function stripScripts(target){
+		return String(target || "").replace(/<script[^>]*>([\S\s]*?)<\/script>/img);	//[\S\s]*? 懒惰匹配任意字符串尽可能少
+	}
+
+
+	/**
+	 *@description 将字符串经过 html 转义得到适合在页面中显示的内容，如将 < 替换为 &lt;
+	 *@param:target 目标字符串
+	 */
+	function escapeHTML(target) {
+		return target.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, "&quot;")
+			.replace(/'/g, "&#39;");
+	}
+
+
+	/**
+	 *@description 与 trim 相反， pad 可以为字符串的某一端添加字符串。如pad("Coco",6) -> 00Coco
+	 *@param:target 目标字符串
+	 *@param:n 目标长度
+	 */
+	function pad(target,n){
+		var zero = new Array(n).join('0');
+		var str = zero + target;
+		var result = str.substr(-n);	//-n表示由右边起第n位开始截取
+		return result;
+	}
+
+	/**
+	 *@description 在 C 语言中，有一个叫 printf 的方法，我们可以在后面添加不同的类型的参数嵌入到将要输出的字符串中。
+	 *@param:str 目标字符串
+	 *@param:object 替换对象
+	 */
+	function format(str, object) {
+		var array = Array.prototype.slice.call(arguments, 1);	//将带有length属性的对象转化为数组
+		
+		return str.replace(/\\?\#{([^{}]+)\}/gm, function(match, name) {
+			if (match.charAt(0) == '\\')
+				return match.slice(1);
+			var index = Number(name)
+			if (index >= 0)
+				return array[index];
+			if (object && object[name] !== void 0)
+				return object[name];
+			return '';
+		});
+	}
+	//用法：
+	//var a = format("Result is #{0},#{1}", 22, 33);
+	//alert(a);//"Result is 22,33"
+	//var b = format("#{name} is a #{sex}", {
+	//name: "Jhon",
+	//sex: "man"
+	//});
+	//alert(b);//"Jhon is a man"
+	//
+
+
+	/**
+	 *@description 在字符串两端添加双引号，然后内部需要转义的地方都要转义，用于接装 JSON的键名或模析系统中。
+	 *@param:target 目标字符串
+	 */
+	//http://code.google.com/p/jquery-json/
+	var escapeable = /["\\\x00-\x1f\x7f-\x9f]/g,	//需要转义的非法字符
+		meta = {
+			'\b': '\\b',
+			'\t': '\\t',
+			'\n': '\\n',
+			'\f': '\\f',
+			'\r': '\\r',
+			'"': '\\"',
+			'\\': '\\\\'
+		};
+	function quote(target) {
+		if (target.match(escapeable)) {
+			return '"' + target.replace(escapeable, function(a) {		
+				var c = meta[a];
+				if (typeof c === 'string') {
+					return c;
+				}
+				return '\\u' + ('0000' + c.charCodeAt(0).toString(16)).slice(-4)
+			}) + '"';
+		}
+		return '"' + target + '"';
+	}
+
+
+	/**
+	 *@description 清除字符串两端的空白字符
+	 *@param:target 目标字符串
+	 */
+	function trim(str) {
+		return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+	}
+	//就是爱折腾法
+	//全过程只用了 indexOf 与 substring 这个专门为处理字符串而生的原生方法，没有使用到正则，在第一次遍历中砍掉前面的空白，第二次砍掉后面的空白。
+	function trim(str) {
+		var whitespace = ' \n\r\t\f\x0b\xa0\u2000\u2001\u2002\u2003\n\
+		\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000';	//所有可能的空白符
+		
+		for (var i = 0; i < str.length; i++) {
+			if (whitespace.indexOf(str.charAt(i)) === -1) {
+				str = str.substring(i);
+				break;
+			}
+		}
+		for (i = str.length - 1; i >= 0; i--) {
+			if (whitespace.indexOf(str.charAt(i)) === -1) {
+				str = str.substring(0, i + 1);
+				break;
+			}
+		}
+		return whitespace.indexOf(str.charAt(0)) === -1 ? str : '';
+	}
+	//上述方法的字数压缩版，前面部分的空白由正则替换负责砍掉，后面用原生方法处理
+	function trim(str) {
+		str = str.replace(/^\s+/, '');
+
+		for (var i = str.length - 1; i >= 0; i--) {
+			if (/\S/.test(str.charAt(i))) {
+				str = str.substring(0, i + 1);
+				break;
+			}
+		}
+		return str;
+	}
+			
 })();
