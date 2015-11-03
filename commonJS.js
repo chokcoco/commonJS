@@ -1,7 +1,7 @@
 /**
  * @description 常用JS函数封装
  * @author  Coco
- * @date 2015.07.21
+ * 
  * 
  */
 (function(){
@@ -220,5 +220,50 @@
 		}
 		return str;
 	}
+
+	// 计算字符的字节长度（汉字算2个字节），并输出指定长度的字符 + "..."
+	// @param str : 传入字符
+	// @param num : 要截断的字节长度（汉字算2个字节）
+	// @example : cutStrForNum("12345678910abc",9) -> "123456789..."
+	function cutStrForNum(str, num){
+    var len = 0; 
+    for (var i = 0; i < str.length; i++) { 
+        if (str[i].match(/[^x00-xff]/ig) != null) //全角 
+            len += 2; 
+        else
+            len += 1; 
+    } 
+
+    if (len >= num) { 
+        newStr = str.substring(0, num) + "..."; 
+        return newStr; 
+    }else{
+    	return str
+    } 
+	}
+
+	// 将数字转换为 每3位添加一个逗号,
+	// @param num ：传入的数字
+	// @example: 123456 -> 123,456 
+	function numOfComma(num){
+		num = ""+num;	//数字转换为字符串
+
+		var len = num.length,
+			commaNum = parseInt((len-1)/3);
+			leftNum = len % 3 == 0 ? 3 : len % 3,
+			result = "";
+			
+		if(len <= 3 ){	//长度小于3
+			result = num;
+		}else{
+			result = num.slice(0,leftNum);
+			for(var i = 1 ; i <=commaNum ; i++){
+				result += ","+num.slice(len-i*3,len-(i-1)*3);
+			}					
+		}
+		return result;
+	}
 			
 })();
+
+
