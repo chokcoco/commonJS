@@ -257,13 +257,83 @@
 			result = num;
 		}else{
 			result = num.slice(0,leftNum);
-			for(var i = 1 ; i <=commaNum ; i++){
+			for(var i = commaNum ; i >=1 ; i--){
 				result += ","+num.slice(len-i*3,len-(i-1)*3);
 			}					
 		}
 		return result;
 	}
-			
+
+	// 传入一个数（单位s），计算出倒数时间,并设置倒数 ( 99:59:59 以内 )
+	// @param curTime ：传入的时间 单位s
+	// @example ：3601 --> 01:00:01 
+	//curTime 传入单位：秒
+	function reciCount(curTime){
+		var nextBoonOne = false,
+			nextBoonTwo = false,
+			nextBoonThree = false,
+			nextBoonFour = false,
+			nextBoonFive = false,
+			nextBoonSix = false;
+
+		var hours = Math.floor(curTime / 60 / 60);
+
+		if(hours >= 100){
+			nextBoonOne= 9 ;
+			nextBoonTwo= 9 ;
+			nextBoonThree= 5 ;
+			nextBoonFour= 9 ;
+			nextBoonFive= 5 ;
+			nextBoonSix= 9 ;	
+			return;
+		}
+
+		var hourTen = Math.floor(hours / 10),
+			hourBits = hours % 10,
+			min = Math.floor(curTime % 3600 / 60),
+			minTen = Math.floor(min/ 10),
+			minBits = min % 10;
+			second = curTime % 60 % 60,
+			secondTen = Math.floor(second / 10) ,
+			secondBits = second % 10;
+
+		nextBoonOne = hourTen ;
+		nextBoonTwo = hourBits ;	
+		nextBoonThree = minTen ;
+		nextBoonFour = minBits ;
+		nextBoonFive = secondTen ;
+		nextBoonSix = secondBits ;	
+
+		var curDate = new Date(),
+			msCurTime = curTime * 1000;
+
+		nextBoonInterval = setInterval(function(){
+			countLock = true;
+			curTime -=1;
+
+		  hours = Math.floor(curTime / 60 / 60), 
+		  hourTen = Math.floor(hours / 10),
+			hourBits = hours % 10,
+			min = Math.floor(curTime % 3600 / 60),
+			minTen = Math.floor(min / 10),
+			minBits = min % 10;
+			second = curTime % 60 % 60,
+			secondTen = Math.floor(second / 10) ,
+			secondBits = second % 10;
+
+			nextBoonOne = hourTen ;
+			nextBoonTwo = hourBits ;	
+			nextBoonThree = minTen ;
+			nextBoonFour = minBits ;
+			nextBoonFive = secondTen ;
+			nextBoonSix = secondBits ;
+
+			if(new Date() -  curDate > msCurTime){
+				clearInterval(nextBoonInterval);
+			}
+		}.bind(this), 1000)
+	}
+
 })();
 
 
