@@ -1,5 +1,5 @@
 /**
- * @description 常用JS函数封装
+ * @description 常用JS函数
  * @author  Coco
  * 
  * 
@@ -332,6 +332,31 @@
 				clearInterval(nextBoonInterval);
 			}
 		}.bind(this), 1000)
+	}
+
+	// 获取文本框光标位置
+	function getInputIndex(obj){
+    var result = 0;
+    // 非IE系，支持 obj.selectionStart
+    if (obj.selectionStart!==undefined) {  
+      result = obj.selectionStart;
+    // IE   
+    } else { 
+      try{
+        var rng;
+        // TEXTAREA 
+        if (obj.tagName == "textarea") { 
+            rng = event.srcElement.createTextRange();
+            rng.moveToPoint(event.x, event.y);
+        // Text    
+        } else {  
+            rng = document.selection.createRange();
+        }
+        rng.moveStart("character", -event.srcElement.value.length);
+        result = rng.text.length;
+      }catch (e){} 
+    }
+    return result;
 	}
 
 })();
