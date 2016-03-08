@@ -4,17 +4,17 @@
  * 
  * 
  */
-(function(){
+(function() {
 	/**
 	 *@description 判定一个字符串是否包含另外一个字符串
 	 *@param:target 目标字符串
 	 *@param:str 父字符串
 	 *@param:separator 分隔符
 	 */
-	function contains(target,str,separator){
+	function contains(target, str, separator) {
 		return separator ?
-			(separator + target + separator).indexOf(separator + str + separator) > -1: //需要判断分隔符
-			target.indexOf(str) > -1;	//不需判断分隔符
+			(separator + target + separator).indexOf(separator + str + separator) > -1 : //需要判断分隔符
+			target.indexOf(str) > -1; //不需判断分隔符
 	}
 
 
@@ -24,10 +24,10 @@
 	 *@param:str 父字符串
 	 *@param:ignorecase 是否忽略大小写
 	 */
-	function startsWith(target,str,ignorecase){
-		var start_str = target.substr(0,str.length);
-		return ignorecase ? start_str.toLowerCase() === str.toLowerCase() : 	//
-			start_str === str ;
+	function startsWith(target, str, ignorecase) {
+		var start_str = target.substr(0, str.length);
+		return ignorecase ? start_str.toLowerCase() === str.toLowerCase() : //
+			start_str === str;
 	}
 
 
@@ -37,10 +37,10 @@
 	 *@param:str 父字符串
 	 *@param:ignorecase 是否忽略大小写
 	 */
-	function startsWith(target,str,ignorecase){
-		var end_str = target.substring(target.length-str.length);
-		return ignorecase ? end_str.toLowerCase() === str.toLowerCase() : 	//
-			end_str === str ;
+	function startsWith(target, str, ignorecase) {
+		var end_str = target.substring(target.length - str.length);
+		return ignorecase ? end_str.toLowerCase() === str.toLowerCase() : //
+			end_str === str;
 	}
 
 
@@ -49,16 +49,16 @@
 	 *@param:target 目标字符串
 	 *@param:n 重复次数
 	 */
-	function repeat(target,n){
-		var s = target, 
+	function repeat(target, n) {
+		var s = target,
 			total = "";
-		while(n > 0){
+		while (n > 0) {
 			if (n % 2 == 1)
 				total += s;
 			if (n == 1)
 				break;
 			s += s;
-			n = n >> 1;	// >>是右移位运算符，相当于将n除以2取其商,或说开2二次方
+			n = n >> 1; // >>是右移位运算符，相当于将n除以2取其商,或说开2二次方
 		}
 		return total;
 	}
@@ -70,12 +70,12 @@
 	 *@param:length 最长长度，不设置则为默认30
 	 *@param:truncation 非默认添加的内容
 	 */
-	function truncate(target,length,truncate){
+	function truncate(target, length, truncate) {
 		length = length || 30;
-		truncate = truncate === void(0)?'...':truncate;
+		truncate = truncate === void(0) ? '...' : truncate;
 
 		return target.length > length ?
-			target.slice(0,length-truncate.length) + truncate : String(target);
+			target.slice(0, length - truncate.length) + truncate : String(target);
 	}
 
 
@@ -83,8 +83,8 @@
 	 *@description 移除字符串中的html标签。
 	 *@param:target 目标字符串
 	 */
-	function stripTags(target){
-		return String(target || "").replace(/<[^>]+>/g);	//[^>] 匹配除>以外的任意字符
+	function stripTags(target) {
+		return String(target || "").replace(/<[^>]+>/g); //[^>] 匹配除>以外的任意字符
 	}
 
 
@@ -92,8 +92,8 @@
 	 *@description 移除字符串中所有的script标签及内容。为弥补stripTags方法的，此方法应在stripTags之前调用。
 	 *@param:target 目标字符串
 	 */
-	function stripScripts(target){
-		return String(target || "").replace(/<script[^>]*>([\S\s]*?)<\/script>/img);	//[\S\s]*? 懒惰匹配任意字符串尽可能少
+	function stripScripts(target) {
+		return String(target || "").replace(/<script[^>]*>([\S\s]*?)<\/script>/img); //[\S\s]*? 懒惰匹配任意字符串尽可能少
 	}
 
 
@@ -115,10 +115,10 @@
 	 *@param:target 目标字符串
 	 *@param:n 目标长度
 	 */
-	function pad(target,n){
+	function pad(target, n) {
 		var zero = new Array(n).join('0');
 		var str = zero + target;
-		var result = str.substr(-n);	//-n表示由右边起第n位开始截取
+		var result = str.substr(-n); //-n表示由右边起第n位开始截取
 		return result;
 	}
 
@@ -128,8 +128,8 @@
 	 *@param:object 替换对象
 	 */
 	function format(str, object) {
-		var array = Array.prototype.slice.call(arguments, 1);	//将带有length属性的对象转化为数组
-		
+		var array = Array.prototype.slice.call(arguments, 1); //将带有length属性的对象转化为数组
+
 		return str.replace(/\\?\#{([^{}]+)\}/gm, function(match, name) {
 			if (match.charAt(0) == '\\')
 				return match.slice(1);
@@ -157,7 +157,7 @@
 	 *@param:target 目标字符串
 	 */
 	//http://code.google.com/p/jquery-json/
-	var escapeable = /["\\\x00-\x1f\x7f-\x9f]/g,	//需要转义的非法字符
+	var escapeable = /["\\\x00-\x1f\x7f-\x9f]/g, //需要转义的非法字符
 		meta = {
 			'\b': '\\b',
 			'\t': '\\t',
@@ -167,9 +167,10 @@
 			'"': '\\"',
 			'\\': '\\\\'
 		};
+
 	function quote(target) {
 		if (target.match(escapeable)) {
-			return '"' + target.replace(escapeable, function(a) {		
+			return '"' + target.replace(escapeable, function(a) {
 				var c = meta[a];
 				if (typeof c === 'string') {
 					return c;
@@ -192,8 +193,8 @@
 	//全过程只用了 indexOf 与 substring 这个专门为处理字符串而生的原生方法，没有使用到正则，在第一次遍历中砍掉前面的空白，第二次砍掉后面的空白。
 	function trim(str) {
 		var whitespace = ' \n\r\t\f\x0b\xa0\u2000\u2001\u2002\u2003\n\
-		\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000';	//所有可能的空白符
-		
+		\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000'; //所有可能的空白符
+
 		for (var i = 0; i < str.length; i++) {
 			if (whitespace.indexOf(str.charAt(i)) === -1) {
 				str = str.substring(i);
@@ -225,41 +226,41 @@
 	// @param str : 传入字符
 	// @param num : 要截断的字节长度（汉字算2个字节）
 	// @example : cutStrForNum("12345678910abc",9) -> "123456789..."
-	function cutStrForNum(str, num){
-    var len = 0; 
-    for (var i = 0; i < str.length; i++) { 
-        if (str[i].match(/[^x00-xff]/ig) != null) //全角 
-            len += 2; 
-        else
-            len += 1; 
-    } 
+	function cutStrForNum(str, num) {
+		var len = 0;
+		for (var i = 0; i < str.length; i++) {
+			if (str[i].match(/[^x00-xff]/ig) != null) //全角 
+				len += 2;
+			else
+				len += 1;
+		}
 
-    if (len >= num) { 
-        newStr = str.substring(0, num) + "..."; 
-        return newStr; 
-    }else{
-    	return str
-    } 
+		if (len >= num) {
+			newStr = str.substring(0, num) + "...";
+			return newStr;
+		} else {
+			return str
+		}
 	}
 
 	// 将数字转换为 每3位添加一个逗号,
 	// @param num ：传入的数字
 	// @example: 123456 -> 123,456 
-	function numOfComma(num){
-		num = ""+num;	//数字转换为字符串
+	function numOfComma(num) {
+		num = "" + num; //数字转换为字符串
 
 		var len = num.length,
-			commaNum = parseInt((len-1)/3);
-			leftNum = len % 3 == 0 ? 3 : len % 3,
+			commaNum = parseInt((len - 1) / 3);
+		leftNum = len % 3 == 0 ? 3 : len % 3,
 			result = "";
-			
-		if(len <= 3 ){	//长度小于3
+
+		if (len <= 3) { //长度小于3
 			result = num;
-		}else{
-			result = num.slice(0,leftNum);
-			for(var i = commaNum ; i >=1 ; i--){
-				result += ","+num.slice(len-i*3,len-(i-1)*3);
-			}					
+		} else {
+			result = num.slice(0, leftNum);
+			for (var i = commaNum; i >= 1; i--) {
+				result += "," + num.slice(len - i * 3, len - (i - 1) * 3);
+			}
 		}
 		return result;
 	}
@@ -267,8 +268,8 @@
 	// 传入一个数（单位s），计算出倒数时间,并设置倒数 ( 99:59:59 以内 )
 	// @param curTime ：传入的时间 单位s
 	// @example ：3601 --> 01:00:01 
-	//curTime 传入单位：秒
-	function reciCount(curTime){
+	// curTime 传入单位：秒
+	function reciCount(curTime) {
 		var nextBoonOne = false,
 			nextBoonTwo = false,
 			nextBoonThree = false,
@@ -278,87 +279,86 @@
 
 		var hours = Math.floor(curTime / 60 / 60);
 
-		if(hours >= 100){
-			nextBoonOne= 9 ;
-			nextBoonTwo= 9 ;
-			nextBoonThree= 5 ;
-			nextBoonFour= 9 ;
-			nextBoonFive= 5 ;
-			nextBoonSix= 9 ;	
+		if (hours >= 100) {
+			nextBoonOne = 9;
+			nextBoonTwo = 9;
+			nextBoonThree = 5;
+			nextBoonFour = 9;
+			nextBoonFive = 5;
+			nextBoonSix = 9;
 			return;
 		}
 
 		var hourTen = Math.floor(hours / 10),
 			hourBits = hours % 10,
 			min = Math.floor(curTime % 3600 / 60),
-			minTen = Math.floor(min/ 10),
+			minTen = Math.floor(min / 10),
 			minBits = min % 10;
-			second = curTime % 60 % 60,
-			secondTen = Math.floor(second / 10) ,
+		second = curTime % 60 % 60,
+			secondTen = Math.floor(second / 10),
 			secondBits = second % 10;
 
-		nextBoonOne = hourTen ;
-		nextBoonTwo = hourBits ;	
-		nextBoonThree = minTen ;
-		nextBoonFour = minBits ;
-		nextBoonFive = secondTen ;
-		nextBoonSix = secondBits ;	
+		nextBoonOne = hourTen;
+		nextBoonTwo = hourBits;
+		nextBoonThree = minTen;
+		nextBoonFour = minBits;
+		nextBoonFive = secondTen;
+		nextBoonSix = secondBits;
 
 		var curDate = new Date(),
 			msCurTime = curTime * 1000;
 
-		nextBoonInterval = setInterval(function(){
+		nextBoonInterval = setInterval(function() {
 			countLock = true;
-			curTime -=1;
+			curTime -= 1;
 
-		  hours = Math.floor(curTime / 60 / 60), 
-		  hourTen = Math.floor(hours / 10),
-			hourBits = hours % 10,
-			min = Math.floor(curTime % 3600 / 60),
-			minTen = Math.floor(min / 10),
-			minBits = min % 10;
+			hours = Math.floor(curTime / 60 / 60),
+				hourTen = Math.floor(hours / 10),
+				hourBits = hours % 10,
+				min = Math.floor(curTime % 3600 / 60),
+				minTen = Math.floor(min / 10),
+				minBits = min % 10;
 			second = curTime % 60 % 60,
-			secondTen = Math.floor(second / 10) ,
-			secondBits = second % 10;
+				secondTen = Math.floor(second / 10),
+				secondBits = second % 10;
 
-			nextBoonOne = hourTen ;
-			nextBoonTwo = hourBits ;	
-			nextBoonThree = minTen ;
-			nextBoonFour = minBits ;
-			nextBoonFive = secondTen ;
-			nextBoonSix = secondBits ;
+			nextBoonOne = hourTen;
+			nextBoonTwo = hourBits;
+			nextBoonThree = minTen;
+			nextBoonFour = minBits;
+			nextBoonFive = secondTen;
+			nextBoonSix = secondBits;
 
-			if(new Date() -  curDate > msCurTime){
+			if (new Date() - curDate > msCurTime) {
 				clearInterval(nextBoonInterval);
 			}
 		}.bind(this), 1000)
 	}
 
 	// 获取文本框光标位置
-	function getInputIndex(obj){
-    var result = 0;
-    // 非IE系，支持 obj.selectionStart
-    if (obj.selectionStart!==undefined) {  
-      result = obj.selectionStart;
-    // IE   
-    } else { 
-      try{
-        var rng;
-        // TEXTAREA 
-        if (obj.tagName == "textarea") { 
-            rng = event.srcElement.createTextRange();
-            rng.moveToPoint(event.x, event.y);
-        // Text    
-        } else {  
-            rng = document.selection.createRange();
-        }
-        rng.moveStart("character", -event.srcElement.value.length);
-        result = rng.text.length;
-      }catch (e){} 
-    }
-    return result;
+	// @example obj -- 需要获取光标位置的 input | textarea
+	// 返回光标所在索引 index 
+	function getInputIndex(obj) {
+		var result = 0;
+		// 非IE系，支持 obj.selectionStart
+		if (obj.selectionStart !== undefined) {
+			result = obj.selectionStart;
+			// IE   
+		} else {
+			try {
+				var rng;
+				// TEXTAREA 
+				if (obj.tagName == "textarea") {
+					rng = event.srcElement.createTextRange();
+					rng.moveToPoint(event.x, event.y);
+					// Text    
+				} else {
+					rng = document.selection.createRange();
+				}
+				rng.moveStart("character", -event.srcElement.value.length);
+				result = rng.text.length;
+			} catch (e) {}
+		}
+		return result;
 	}
-
 })();
-
-
