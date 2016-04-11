@@ -1,8 +1,8 @@
 /**
  * @description 常用JS函数
  * @author  Coco
- * 
- * 
+ *
+ *
  */
 (function() {
 	/**
@@ -229,7 +229,7 @@
 	function cutStrForNum(str, num) {
 		var len = 0;
 		for (var i = 0; i < str.length; i++) {
-			if (str[i].match(/[^x00-xff]/ig) != null) //全角 
+			if (str[i].match(/[^x00-xff]/ig) != null) //全角
 				len += 2;
 			else
 				len += 1;
@@ -245,7 +245,7 @@
 
 	// 将数字转换为 每3位添加一个逗号,
 	// @param num ：传入的数字
-	// @example: 123456 -> 123,456 
+	// @example: 123456 -> 123,456
 	function numOfComma(num) {
 		num = "" + num; //数字转换为字符串
 
@@ -267,9 +267,10 @@
 
 	// 传入一个数（单位s），计算出倒数时间,并设置倒数 ( 99:59:59 以内 )
 	// @param curTime ：传入的时间 单位s
-	// @example ：3601 --> 01:00:01 
+	// @example ：3601 --> 01:00:01
 	// curTime 传入单位：秒
 	function reciCount(curTime) {
+		// 传入 dom
 		var nextBoonOne = false,
 			nextBoonTwo = false,
 			nextBoonThree = false,
@@ -294,7 +295,7 @@
 			min = Math.floor(curTime % 3600 / 60),
 			minTen = Math.floor(min / 10),
 			minBits = min % 10;
-		second = curTime % 60 % 60,
+			second = curTime % 60 % 60,
 			secondTen = Math.floor(second / 10),
 			secondBits = second % 10;
 
@@ -313,14 +314,14 @@
 			curTime -= 1;
 
 			hours = Math.floor(curTime / 60 / 60),
-				hourTen = Math.floor(hours / 10),
-				hourBits = hours % 10,
-				min = Math.floor(curTime % 3600 / 60),
-				minTen = Math.floor(min / 10),
-				minBits = min % 10;
+			hourTen = Math.floor(hours / 10),
+			hourBits = hours % 10,
+			min = Math.floor(curTime % 3600 / 60),
+			minTen = Math.floor(min / 10),
+			minBits = min % 10;
 			second = curTime % 60 % 60,
-				secondTen = Math.floor(second / 10),
-				secondBits = second % 10;
+			secondTen = Math.floor(second / 10),
+			secondBits = second % 10;
 
 			nextBoonOne = hourTen;
 			nextBoonTwo = hourBits;
@@ -337,21 +338,21 @@
 
 	// 获取文本框光标位置
 	// @example obj -- 需要获取光标位置的 input | textarea
-	// 返回光标所在索引 index 
+	// 返回光标所在索引 index
 	function getInputIndex(obj) {
 		var result = 0;
 		// 非IE系，支持 obj.selectionStart
 		if (obj.selectionStart !== undefined) {
 			result = obj.selectionStart;
-			// IE   
+			// IE
 		} else {
 			try {
 				var rng;
-				// TEXTAREA 
+				// TEXTAREA
 				if (obj.tagName == "textarea") {
 					rng = event.srcElement.createTextRange();
 					rng.moveToPoint(event.x, event.y);
-					// Text    
+					// Text
 				} else {
 					rng = document.selection.createRange();
 				}
@@ -365,17 +366,37 @@
 	// IE67 兼容伪类设置
 	// 传入单个 Dom 结构
 	function pseudoHack(dom) {
-    if (document.querySelector || !dom && dom.nodeType !== 1) return;
-    
-    var content = dom.getAttribute("data-content") || '';     
-    var before = document.createElement("before")
-        , after = document.createElement("after");
-      
-    // 内部content
-    before.innerHTML = content;
-    after.innerHTML = content;
-    // 前后分别插入节点
-    dom.insertBefore(before, dom.firstChild);
-    dom.appendChild(after);
+		if (document.querySelector || !dom && dom.nodeType !== 1) return;
+
+		var content = dom.getAttribute("data-content") || '';
+		var before = document.createElement("before"),
+			after = document.createElement("after");
+
+		// 内部content
+		before.innerHTML = content;
+		after.innerHTML = content;
+		// 前后分别插入节点
+		dom.insertBefore(before, dom.firstChild);
+		dom.appendChild(after);
 	}
+
+	// JS 动态设定 document 的 font-size
+	// 以 320 的设备宽度为基准，320 下 10px 为 1rem
+	(function(doc, win) {
+		var docEl = doc.documentElement,
+			resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+			recalc = function() {
+				var clientWidth = docEl.clientWidth;
+				if (!clientWidth) {
+					return;
+				}
+				docEl.style.fontSize = 10 * (clientWidth / 320) + 'px';
+			};
+
+		if (!doc.addEventListener) return;
+		win.addEventListener(resizeEvt, recalc, false);
+		doc.addEventListener('DOMContentLoaded', recalc, false);
+		recalc();
+		window.recalc = recalc;
+	})(document, window);
 })();
