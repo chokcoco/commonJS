@@ -1,7 +1,7 @@
 /**
  * @description 常用JS函数
  * @author  Coco
- *
+ * @last update 2016.05.03
  *
  */
 (function() {
