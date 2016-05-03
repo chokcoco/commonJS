@@ -364,16 +364,17 @@
 
 	// 加载 JS 文件
 	function LoadStyle(src) {
-    var scriptNode = document.createElement("script");
-    scriptNode.type = "text/javascript";
-    scriptNode.src = src;
-    var head = document.getElementsByTagName('head')[0];
-    head.appendChild(scriptNode);
+		var scriptNode = document.createElement("script");
+		scriptNode.type = "text/javascript";
+		scriptNode.src = src;
+		var head = document.getElementsByTagName('head')[0];
+		head.appendChild(scriptNode);
 	}
 
 	// 返回一个随机数时间戳
-	function uniqueId(){
-	    var a=Math.random,b=parseInt;
-	    return Number(new Date()).toString()+b(10*a())+b(10*a())+b(10*a());
+	function uniqueId() {
+		var a = Math.random,
+			b = parseInt;
+		return Number(new Date()).toString() + b(10 * a()) + b(10 * a()) + b(10 * a());
 	}
 })();
