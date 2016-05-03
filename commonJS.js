@@ -265,77 +265,6 @@
 		return result;
 	}
 
-	// 传入一个数（单位s），计算出倒数时间,并设置倒数 ( 99:59:59 以内 )
-	// @param curTime ：传入的时间 单位s
-	// @example ：3601 --> 01:00:01
-	// curTime 传入单位：秒
-	function reciCount(curTime) {
-		// 传入 dom
-		var nextBoonOne = false,
-			nextBoonTwo = false,
-			nextBoonThree = false,
-			nextBoonFour = false,
-			nextBoonFive = false,
-			nextBoonSix = false;
-
-		var hours = Math.floor(curTime / 60 / 60);
-
-		if (hours >= 100) {
-			nextBoonOne = 9;
-			nextBoonTwo = 9;
-			nextBoonThree = 5;
-			nextBoonFour = 9;
-			nextBoonFive = 5;
-			nextBoonSix = 9;
-			return;
-		}
-
-		var hourTen = Math.floor(hours / 10),
-			hourBits = hours % 10,
-			min = Math.floor(curTime % 3600 / 60),
-			minTen = Math.floor(min / 10),
-			minBits = min % 10;
-			second = curTime % 60 % 60,
-			secondTen = Math.floor(second / 10),
-			secondBits = second % 10;
-
-		nextBoonOne = hourTen;
-		nextBoonTwo = hourBits;
-		nextBoonThree = minTen;
-		nextBoonFour = minBits;
-		nextBoonFive = secondTen;
-		nextBoonSix = secondBits;
-
-		var curDate = new Date(),
-			msCurTime = curTime * 1000;
-
-		nextBoonInterval = setInterval(function() {
-			countLock = true;
-			curTime -= 1;
-
-			hours = Math.floor(curTime / 60 / 60),
-			hourTen = Math.floor(hours / 10),
-			hourBits = hours % 10,
-			min = Math.floor(curTime % 3600 / 60),
-			minTen = Math.floor(min / 10),
-			minBits = min % 10;
-			second = curTime % 60 % 60,
-			secondTen = Math.floor(second / 10),
-			secondBits = second % 10;
-
-			nextBoonOne = hourTen;
-			nextBoonTwo = hourBits;
-			nextBoonThree = minTen;
-			nextBoonFour = minBits;
-			nextBoonFive = secondTen;
-			nextBoonSix = secondBits;
-
-			if (new Date() - curDate > msCurTime) {
-				clearInterval(nextBoonInterval);
-			}
-		}.bind(this), 1000)
-	}
-
 	// 获取文本框光标位置
 	// @example obj -- 需要获取光标位置的 input | textarea
 	// 返回光标所在索引 index
@@ -399,4 +328,52 @@
 		recalc();
 		window.recalc = recalc;
 	})(document, window);
+
+	// 设置 Cookie 值
+	function setCookie(name, value, Hours) {
+		var d = new Date(),
+			offset = 8,
+			utc = d.getTime() + (d.getTimezoneOffset() * 60000),
+			nd = utc + (3600000 * offset),
+			exp = new Date(nd);
+
+		exp.setTime(exp.getTime() + Hours * 60 * 60 * 1000);
+		document.cookie = name + "=" + decodeURIComponent(value) + ";path=/;expires=" + exp.toGMTString() + ";";
+	}
+
+	// 获取cookie值
+	function getCookie(name) {
+		var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+		if (arr != null) return encodeURIComponent(arr[2]);
+		return null;
+	}
+
+	// 加载 CSS 文件
+	function LoadStyle(url) {
+		try {
+			document.createStyleSheet(url)
+		} catch (e) {
+			var cssLink = document.createElement('link');
+			cssLink.rel = 'stylesheet';
+			cssLink.type = 'text/css';
+			cssLink.href = url;
+			var head = document.getElementsByTagName('head')[0];
+			head.appendChild(cssLink)
+		}
+	}
+
+	// 加载 JS 文件
+	function LoadStyle(src) {
+    var scriptNode = document.createElement("script");
+    scriptNode.type = "text/javascript";
+    scriptNode.src = src;
+    var head = document.getElementsByTagName('head')[0];
+    head.appendChild(scriptNode);
+	}
+
+	// 返回一个随机数时间戳
+	function uniqueId(){
+	    var a=Math.random,b=parseInt;
+	    return Number(new Date()).toString()+b(10*a())+b(10*a())+b(10*a());
+	}
 })();
