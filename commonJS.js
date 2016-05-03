@@ -17,7 +17,6 @@
 			target.indexOf(str) > -1; //不需判断分隔符
 	}
 
-
 	/**
 	 *@description 判定目标字符串是否位于原字符串的开始之处
 	 *@param:target 目标字符串
@@ -30,7 +29,6 @@
 			start_str === str;
 	}
 
-
 	/**
 	 *@description 判定目标字符串是否位于原字符串的末尾
 	 *@param:target 目标字符串
@@ -42,7 +40,6 @@
 		return ignorecase ? end_str.toLowerCase() === str.toLowerCase() : //
 			end_str === str;
 	}
-
 
 	/**
 	 *@description 将一个字符串重复自身N次，如 repeat("Co")得到 CoCo。
@@ -63,7 +60,6 @@
 		return total;
 	}
 
-
 	/**
 	 *@description 用于对字符串进行截断处理，当超过限定长度，默认添加三个点号或其它
 	 *@param:target 目标字符串
@@ -78,7 +74,6 @@
 			target.slice(0, length - truncate.length) + truncate : String(target);
 	}
 
-
 	/**
 	 *@description 移除字符串中的html标签。
 	 *@param:target 目标字符串
@@ -87,7 +82,6 @@
 		return String(target || "").replace(/<[^>]+>/g); //[^>] 匹配除>以外的任意字符
 	}
 
-
 	/**
 	 *@description 移除字符串中所有的script标签及内容。为弥补stripTags方法的，此方法应在stripTags之前调用。
 	 *@param:target 目标字符串
@@ -95,7 +89,6 @@
 	function stripScripts(target) {
 		return String(target || "").replace(/<script[^>]*>([\S\s]*?)<\/script>/img); //[\S\s]*? 懒惰匹配任意字符串尽可能少
 	}
-
 
 	/**
 	 *@description 将字符串经过 html 转义得到适合在页面中显示的内容，如将 < 替换为 &lt;
@@ -108,7 +101,6 @@
 			.replace(/"/g, "&quot;")
 			.replace(/'/g, "&#39;");
 	}
-
 
 	/**
 	 *@description 与 trim 相反， pad 可以为字符串的某一端添加字符串。如pad("Coco",6) -> 00Coco
@@ -151,7 +143,6 @@
 	//alert(b);//"Jhon is a man"
 	//
 
-
 	/**
 	 *@description 在字符串两端添加双引号，然后内部需要转义的地方都要转义，用于接装 JSON的键名或模析系统中。
 	 *@param:target 目标字符串
@@ -189,6 +180,7 @@
 	function trim(str) {
 		return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 	}
+
 	//就是爱折腾法
 	//全过程只用了 indexOf 与 substring 这个专门为处理字符串而生的原生方法，没有使用到正则，在第一次遍历中砍掉前面的空白，第二次砍掉后面的空白。
 	function trim(str) {
@@ -349,7 +341,7 @@
 	}
 
 	// 加载 CSS 文件
-	function LoadStyle(url) {
+	function loadStyle(url) {
 		try {
 			document.createStyleSheet(url)
 		} catch (e) {
@@ -363,7 +355,7 @@
 	}
 
 	// 加载 JS 文件
-	function LoadStyle(src) {
+	function loadScript(src) {
 		var scriptNode = document.createElement("script");
 		scriptNode.type = "text/javascript";
 		scriptNode.src = src;
