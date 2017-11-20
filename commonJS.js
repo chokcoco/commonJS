@@ -257,6 +257,19 @@
 		return result;
 	}
 
+	/**
+	 * 将数字转换为 每3位添加一个逗号, 123456 -> 123,456
+	 * @param {Number} num 传入的要被分割的数字
+	 * @return {String} 
+	 */
+	function numOfCom(num) {
+		var num = "" + num;
+		
+		var reg = /(?!^)(?=(\d{3})+$)/g;
+
+		return num.replace(reg, ',');
+	}
+
 	// 获取文本框光标位置
 	// @example obj -- 需要获取光标位置的 input | textarea
 	// 返回光标所在索引 index
@@ -333,7 +346,7 @@
 		document.cookie = name + "=" + decodeURIComponent(value) + ";path=/;expires=" + exp.toGMTString() + ";";
 	}
 
-	// 获取cookie值
+	// 获取 Cookie 值
 	function getCookie(name) {
 		var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
 		if (arr != null) return encodeURIComponent(arr[2]);
