@@ -1,3 +1,3 @@
-## commonJS
+### commonJS
 
-常用函数封装
+个人常用函数封装
