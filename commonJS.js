@@ -259,6 +259,7 @@
 
 	/**
 	 * 将数字转换为 每3位添加一个逗号, 123456 -> 123,456
+	 * Number.toLocaleString()
 	 * @param {Number} num 传入的要被分割的数字
 	 * @return {String} 
 	 */
